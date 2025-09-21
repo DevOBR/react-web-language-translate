@@ -7,14 +7,43 @@
   resize: none;
 }
 
-.to-text {
-  background: #e9e6e6ff;
+.from-text {
+  background-color: #121212;
+  border-color: #121212;
+  color: #ffffff;
 }
 
-.to-text::placeholder {
-  color: #000000;
+.from-text:focus {
+  background-color: #121212;
+  border-color: #121212;
+  box-shadow: none;
+  color: #ffffff;
 }
 
 .from-text::placeholder {
-  color: #808080;
+  color: #aca9a9;
+}
+
+.to-text {
+  background: #e9e6e6ff;
+  background-color: #303134;
+  box-shadow: none;
+  color: #ffffff;
+  border: none;
+}
+
+.to-text:focus {
+  background: #e9e6e6ff;
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+.to-text:disabled {
+  background: #e9e6e6ff;
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+.to-text::placeholder {
+  color: #aca9a9;
 }

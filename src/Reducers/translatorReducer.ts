@@ -42,6 +42,7 @@ export function translatorReducer(state: iState, action: Action) {
   if (type === ACTIONTYPE_LANGUAGE_TEXT.SET_FROM_TEXT) {
     const { payload } = action
     const { fromText } = state
+
     const loading = fromText !== payload
 
     if (!loading) return state
@@ -50,7 +51,7 @@ export function translatorReducer(state: iState, action: Action) {
       ...state,
       fromText: payload,
       toText: '',
-      loading: !loading
+      loading
     }
   }
 

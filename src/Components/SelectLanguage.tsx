@@ -1,3 +1,4 @@
+import './SelectLanguage.css'
 import { Form } from 'react-bootstrap'
 import { ALLOWED_LANGUAGES } from '../consts'
 import { type SelectProps } from '../types.d'
@@ -13,7 +14,7 @@ export function SelectLanguage({ type, onChange, language }: SelectProps) {
   return (
     <Form.Select
       aria-label='Default select example'
-      style={{ fontSize: '10pt', color: 'grey' }}
+      className='oz-select'
       value={language}
       onChange={handleChange}
     >

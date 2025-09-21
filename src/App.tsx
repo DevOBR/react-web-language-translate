@@ -13,7 +13,9 @@ function App() {
     toLanguage,
     setFromLanguage,
     setToLanguage,
-    setExchangeLanguage
+    setExchangeLanguage,
+    setFromText,
+    setToText
   } = useTranslator()
 
   const handleClick = () => {
@@ -33,7 +35,11 @@ function App() {
               language={fromLanguage}
               onChange={setFromLanguage}
             />
-            <TextArea loading={loading} type={TYPE_TEXT.FROM} />
+            <TextArea
+              onChange={setFromText}
+              loading={loading}
+              type={TYPE_TEXT.FROM}
+            />
           </Stack>
         </Col>
         <Col xs='auto'>
@@ -46,7 +52,11 @@ function App() {
               language={toLanguage}
               onChange={setToLanguage}
             />
-            <TextArea loading={loading} type={TYPE_TEXT.TO} />
+            <TextArea
+              onChange={setToText}
+              loading={loading}
+              type={TYPE_TEXT.TO}
+            />
           </Stack>
         </Col>
       </Row>

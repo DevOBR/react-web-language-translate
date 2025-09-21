@@ -42,8 +42,10 @@ export type TextAreaProps =
   | {
       type: 'from'
       loading: boolean
+      onChange: (text: string) => void
     }
   | {
       type: 'to'
       loading: boolean
+      onChange: (text: string) => void
     }
