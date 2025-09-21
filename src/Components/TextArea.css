@@ -1,0 +1,20 @@
+.text-area::placeholder {
+  opacity: 0.4;
+}
+
+.text-area {
+  height: 100px;
+  resize: none;
+}
+
+.to-text {
+  background: #e9e6e6ff;
+}
+
+.to-text::placeholder {
+  color: #000000;
+}
+
+.from-text::placeholder {
+  color: #808080;
+}
