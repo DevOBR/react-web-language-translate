@@ -5,6 +5,7 @@ export const ALLOWED_LANGUAGES = {
 } as const
 
 export const AUTO_LANGUAGE = 'auto'
+export const NONE_LANGUAGE = 'none'
 
 export const ACTIONTYPE_LANGUAGE = {
   SET_FROM_LANGUAGE: 'SET_FROM_LANGUAGE',
@@ -24,3 +25,5 @@ export const TYPE_TEXT = {
   FROM: 'from',
   TO: 'to'
 } as const
+
+export const DETECTED_LANGUAGE = 'Detect Language'

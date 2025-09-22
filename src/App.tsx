@@ -5,14 +5,16 @@ import { SelectLanguage } from './Components/SelectLanguage'
 import { TextArea } from './Components/TextArea'
 import { ExchangeIcon } from './SvgIcons/ExchangeIcon'
 import { useTranslator } from './Hooks/useTranslator'
-import { TYPE_TEXT } from './consts'
+import { TYPE_TEXT, NONE_LANGUAGE, ALLOWED_LANGUAGES } from './consts'
 import { useEffect, useState } from 'react'
 import { useDebounce } from './Hooks/useDebounce'
-import type { Language } from './types'
-import { ALLOWED_LANGUAGES } from './consts'
+import type { AllowedLanguages, AllowedLanguagesName } from './types'
+
+const initialAllowedLanguageName: AllowedLanguagesName = NONE_LANGUAGE
 
 function App() {
   const {
+    disabled,
     loading,
     fromLanguage,
     toLanguage,
@@ -26,16 +28,18 @@ function App() {
   } = useTranslator()
 
   const douncedVal = useDebounce(fromText)
-  const [realTranslation, setRealTranslation] = useState('')
+  const [realTranslation, setRealTranslation] = useState(
+    initialAllowedLanguageName
+  )
 
   useEffect(() => {
     if (douncedVal === '') {
-      setRealTranslation('')
+      setRealTranslation(initialAllowedLanguageName)
       return
     }
     const response: {
-      from: { text: string; lang: Language }
-      to: { text: string; lang: Language }
+      from: { text: string; lang: AllowedLanguages }
+      to: { text: string; lang: AllowedLanguages }
       success: boolean
       status: 'translated' | 'error'
     } = {
@@ -57,7 +61,7 @@ function App() {
     setToText(response.to.text)
   }, [douncedVal])
 
-  const handleClick = () => {
+  function handleClick() {
     setExchangeLanguage()
   }
 
@@ -85,7 +89,7 @@ function App() {
             </Stack>
           </Col>
           <Col xs='auto'>
-            <ExchangeIcon onClick={handleClick} />
+            <ExchangeIcon onClick={handleClick} disabled={disabled} />
           </Col>
           <Col>
             <Stack gap={2}>

@@ -1,16 +1,15 @@
 import { useReducer } from 'react'
 import { translatorReducer } from '../Reducers/translatorReducer'
-import { type FromLanguage, type Language, type iState } from '../types.d'
+import { type Language, type iState } from '../types.d'
 import {
   ACTIONTYPE_LANGUAGE,
   ACTIONTYPE_LANGUAGE_TEXT,
   ACTIONTYPEEXTENDED
 } from '../consts'
 
-const getDefaultLanguage = <T extends FromLanguage | Language>(lang: string) =>
-  lang as T
+const getDefaultLanguage = <T extends Language>(lang: string) => lang as T
 
-const fromLanguage: FromLanguage = 'auto'
+const fromLanguage: Language = 'auto'
 const toLanguage: Language = getDefaultLanguage<Language>(
   new Intl.Locale(navigator.languages[0] ?? 'es').language
 )
@@ -19,20 +18,23 @@ const initialState: iState = {
   toLanguage,
   toText: '',
   fromText: '',
-  loading: false
+  loading: false,
+  disabled: false
 }
 
 export function useTranslator() {
-  const [{ fromLanguage, toLanguage, toText, fromText, loading }, dispatch] =
-    useReducer(translatorReducer, initialState)
+  const [
+    { fromLanguage, toLanguage, toText, fromText, loading, disabled },
+    dispatch
+  ] = useReducer(translatorReducer, initialState)
 
-  const setFromLanguage = (payload: FromLanguage) =>
+  const setFromLanguage = (payload: Language) =>
     dispatch({
       type: ACTIONTYPE_LANGUAGE.SET_FROM_LANGUAGE,
       payload
     })
 
-  const setToLanguage = (payload: FromLanguage) =>
+  const setToLanguage = (payload: Language) =>
     dispatch({
       type: ACTIONTYPE_LANGUAGE.SET_TO_LANGUAGE,
       payload
@@ -61,6 +63,7 @@ export function useTranslator() {
     toText,
     fromText,
     loading,
+    disabled,
     setFromLanguage,
     setToLanguage,
     setFromText,

@@ -20,7 +20,8 @@ export function translatorReducer(state: iState, action: Action) {
       ...state,
       fromLanguage: payload,
       toText: '',
-      loading: loading
+      loading: loading,
+      disabled: payload === toLanguage
     }
   }
 
@@ -36,7 +37,8 @@ export function translatorReducer(state: iState, action: Action) {
       ...state,
       toLanguage: payload,
       toText: '',
-      loading: loading && toText.length > 0
+      loading: loading && toText.length > 0,
+      disabled: payload === fromLanguage
     }
   }
 

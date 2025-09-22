@@ -1,9 +1,13 @@
 import './SelectLanguage.css'
 import { Form } from 'react-bootstrap'
-import { ALLOWED_LANGUAGES } from '../consts'
+import {
+  ALLOWED_LANGUAGES,
+  AUTO_LANGUAGE,
+  DETECTED_LANGUAGE,
+  NONE_LANGUAGE
+} from '../consts'
 import { TYPE_TEXT } from '../consts'
-import { getLanguageSelector } from '../utility'
-import { type SelectProps } from '../types.d'
+import { type Language, type SelectProps } from '../types.d'
 import { type ChangeEvent } from 'react'
 
 export function SelectLanguage({
@@ -12,10 +16,25 @@ export function SelectLanguage({
   selectedLanguage,
   realTranslation
 }: SelectProps) {
-  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    onChange(getLanguageSelector(event.target.value))
-  }
   const isFromLanguage = type === TYPE_TEXT.FROM
+  const isDefaultLanguage =
+    !!realTranslation && realTranslation === realTranslation
+
+  const createSelectHandler = <T extends string>(
+    onSelectChange: (value: T) => void
+  ) => {
+    return (event: ChangeEvent<HTMLSelectElement>) =>
+      onSelectChange(event.target.value as T)
+  }
+  const handleChange2 = createSelectHandler<Language>((lang) => onChange(lang))
+
+  const detectLanguage = DETECTED_LANGUAGE
+  const detectedLanguage =
+    isDefaultLanguage &&
+    selectedLanguage === AUTO_LANGUAGE &&
+    realTranslation !== NONE_LANGUAGE
+      ? `${realTranslation} - ${detectLanguage}`
+      : detectLanguage
 
   return (
     <>
@@ -23,13 +42,9 @@ export function SelectLanguage({
         aria-label='Default select example'
         className='oz-select'
         value={`${selectedLanguage}`}
-        onChange={handleChange}
+        onChange={handleChange2}
       >
-        {isFromLanguage && (
-          <option value='auto'>
-            {realTranslation && `${realTranslation} -`} Detect Language
-          </option>
-        )}
+        {isFromLanguage && <option value='auto'>{detectedLanguage}</option>}
         {Object.entries(ALLOWED_LANGUAGES).map(([key, value]) => (
           <option key={key} value={key}>
             {value}

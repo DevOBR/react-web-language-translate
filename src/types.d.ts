@@ -3,39 +3,48 @@ import {
   AUTO_LANGUAGE,
   ACTIONTYPE_LANGUAGE,
   ACTIONTYPE_LANGUAGE_TEXT,
-  ACTIONTYPEEXTENDED
+  ACTIONTYPEEXTENDED,
+  TYPE_TEXT,
+  NONE_LANGUAGE
 } from './consts'
 
 export type ActionTypeLanguage = keyof typeof ACTIONTYPE_LANGUAGE
 export type ActionTypeLanguageText = keyof typeof ACTIONTYPE_LANGUAGE_TEXT
 export type ExtendedActionType = keyof typeof ACTIONTYPEEXTENDED
-export type Language = keyof typeof ALLOWED_LANGUAGES
 export type AutoLanguage = typeof AUTO_LANGUAGE
-export type FromLanguage = AutoLanguage | Language
+export type NoneLanguage = typeof NONE_LANGUAGE
+export type AllowedLanguages = keyof typeof ALLOWED_LANGUAGES
+export type AllowedLanguagesName =
+  | (typeof ALLOWED_LANGUAGES)[keyof typeof ALLOWED_LANGUAGES]
+  | NoneLanguage
+export type Language = AutoLanguage | AllowedLanguages | NoneLanguage
+export type FROM = typeof TYPE_TEXT.FROM
+export type TO = typeof TYPE_TEXT.TO
 
 export interface iState {
-  fromLanguage: FromLanguage
+  fromLanguage: Language
   toLanguage: Language
   toText: string
   fromText: string
   loading: boolean
+  disabled: boolean
 }
 
 export type Action =
-  | { type: ActionTypeLanguage; payload: FromLanguage }
+  | { type: ActionTypeLanguage; payload: Language }
   | { type: ActionTypeLanguageText; payload: string }
   | { type: ExtendedActionType }
 
 export interface ISelectLanguage<T, Type extends string> {
   type: Type
-  selectedLanguage: FromLanguage
-  realTranslation?: string
+  selectedLanguage: Language
+  realTranslation?: AllowedLanguagesName
   onChange: (value: T) => void
 }
 
 export type SelectProps =
-  | ISelectLanguage<Language, 'from'>
-  | ISelectLanguage<Language, 'to'>
+  | ISelectLanguage<Language, FROM>
+  | ISelectLanguage<Language, TO>
 
 interface ITextArea<Type extends string> {
   type: Type
@@ -44,4 +53,4 @@ interface ITextArea<Type extends string> {
   onChange?: (event: string) => void
 }
 
-export type TextAreaProps = ITextArea<'from'> | ITextArea<'to'>
+export type TextAreaProps = ITextArea<FROM> | ITextArea<TO>
