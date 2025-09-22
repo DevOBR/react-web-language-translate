@@ -1,9 +1,8 @@
 .oz-select {
-  font-size: 10pt;
-  color: 'grey';
+  font-size: 8pt;
   background-color: #121212;
   border-color: #5f5f5f;
-  color: #aca9a9;
+  color: #47a1e5;
 }
 
 .oz-select:focus {

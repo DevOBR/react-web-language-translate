@@ -1,6 +1,6 @@
 export const ALLOWED_LANGUAGES = {
   es: 'Spanish',
-  us: 'English',
+  en: 'English',
   de: 'Deutsch'
 } as const
 

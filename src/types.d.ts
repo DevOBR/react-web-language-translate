@@ -26,26 +26,22 @@ export type Action =
   | { type: ActionTypeLanguageText; payload: string }
   | { type: ExtendedActionType }
 
-export type SelectProps =
-  | {
-      type: 'from'
-      onChange: (value: FromLanguage) => void
-      language: FromLanguage
-    }
-  | {
-      type: 'to'
-      onChange: (value: Language) => void
-      language: Language
-    }
+export interface ISelectLanguage<T, Type extends string> {
+  type: Type
+  selectedLanguage: FromLanguage
+  realTranslation?: string
+  onChange: (value: T) => void
+}
 
-export type TextAreaProps =
-  | {
-      type: 'from'
-      loading: boolean
-      onChange: (text: string) => void
-    }
-  | {
-      type: 'to'
-      loading: boolean
-      onChange: (text: string) => void
-    }
+export type SelectProps =
+  | ISelectLanguage<Language, 'from'>
+  | ISelectLanguage<Language, 'to'>
+
+interface ITextArea<Type extends string> {
+  type: Type
+  loading: boolean
+  textValue: string
+  onChange?: (event: string) => void
+}
+
+export type TextAreaProps = ITextArea<'from'> | ITextArea<'to'>

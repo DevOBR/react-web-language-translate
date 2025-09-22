@@ -5,6 +5,7 @@ export const ExchangeIcon = ({ onClick }: { onClick: () => void }) => {
 
   return (
     <svg
+      fill='#aca9a9'
       onClick={handleClick}
       width='24'
       height='24'

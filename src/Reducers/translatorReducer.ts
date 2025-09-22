@@ -26,6 +26,7 @@ export function translatorReducer(state: iState, action: Action) {
 
   if (type === ACTIONTYPE_LANGUAGE.SET_TO_LANGUAGE) {
     const { payload } = action
+    const { toText } = state
 
     const loading = payload !== 'auto' && payload !== toLanguage
 
@@ -35,7 +36,7 @@ export function translatorReducer(state: iState, action: Action) {
       ...state,
       toLanguage: payload,
       toText: '',
-      loading
+      loading: loading && toText.length > 0
     }
   }
 
@@ -43,7 +44,7 @@ export function translatorReducer(state: iState, action: Action) {
     const { payload } = action
     const { fromText } = state
 
-    const loading = fromText !== payload
+    const loading = payload !== fromText
 
     if (!loading) return state
 
@@ -51,7 +52,7 @@ export function translatorReducer(state: iState, action: Action) {
       ...state,
       fromText: payload,
       toText: '',
-      loading
+      loading: loading && payload.length > 0
     }
   }
 
@@ -65,7 +66,7 @@ export function translatorReducer(state: iState, action: Action) {
     return {
       ...state,
       toText: payload,
-      loading: !loading
+      loading: loading && payload.length > 0
     }
   }
 
