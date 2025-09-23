@@ -21,7 +21,7 @@ export type Language = AutoLanguage | AllowedLanguages | NoneLanguage
 export type FROM = typeof TYPE_TEXT.FROM
 export type TO = typeof TYPE_TEXT.TO
 
-export interface iState {
+export interface IState {
   fromLanguage: Language
   toLanguage: Language
   toText: string
@@ -54,3 +54,18 @@ interface ITextArea<Type extends string> {
 }
 
 export type TextAreaProps = ITextArea<FROM> | ITextArea<TO>
+
+import type { AllowedLanguages, Language } from '../types'
+
+export type TranslatePayload = {
+  fromText: string
+  fromLanguage: Language
+  toLanguage: Language
+}
+
+export type TranslateResponse = {
+  from: { text: string; lang: AllowedLanguages | NoneLanguage }
+  to: { text: string; lang: AllowedLanguages | NoneLanguage }
+  success: boolean
+  status: 'translated' | 'error'
+}

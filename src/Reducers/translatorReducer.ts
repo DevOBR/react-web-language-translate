@@ -1,18 +1,19 @@
-import { type Action, type iState } from '../types'
+import { type Action, type IState } from '../types'
 import {
   ACTIONTYPE_LANGUAGE,
   ACTIONTYPE_LANGUAGE_TEXT,
   ACTIONTYPEEXTENDED
 } from '../consts'
 
-export function translatorReducer(state: iState, action: Action) {
+export function translatorReducer(state: IState, action: Action) {
   const { type } = action
-  const { fromLanguage, toLanguage } = state
+  const { fromLanguage, toLanguage, toText } = state
 
   if (type === ACTIONTYPE_LANGUAGE.SET_FROM_LANGUAGE) {
     const { payload } = action
 
-    const loading = payload !== fromLanguage
+    const loading =
+      payload.toLowerCase() !== fromLanguage.toLowerCase() && payload.length > 0
 
     if (!loading) return state
 
@@ -29,7 +30,8 @@ export function translatorReducer(state: iState, action: Action) {
     const { payload } = action
     const { toText } = state
 
-    const loading = payload !== 'auto' && payload !== toLanguage
+    const loading =
+      payload !== 'auto' && payload.toLowerCase() !== toLanguage.toLowerCase()
 
     if (payload === 'auto') return state
 
@@ -46,7 +48,7 @@ export function translatorReducer(state: iState, action: Action) {
     const { payload } = action
     const { fromText } = state
 
-    const loading = payload !== fromText
+    const loading = payload.toLowerCase() !== fromText.toLowerCase()
 
     if (!loading) return state
 
@@ -61,7 +63,7 @@ export function translatorReducer(state: iState, action: Action) {
   if (type === ACTIONTYPE_LANGUAGE_TEXT.SET_TO_TEXT) {
     const { payload } = action
     const { toText } = state
-    const loading = toText !== payload
+    const loading = toText.toLowerCase() !== payload.toLowerCase()
 
     if (!loading) return state
 
@@ -80,6 +82,7 @@ export function translatorReducer(state: iState, action: Action) {
       ...state,
       fromLanguage: toLanguage,
       toLanguage: fromLanguage,
+      fromText: toText,
       toText: '',
       loading: !loading
     }

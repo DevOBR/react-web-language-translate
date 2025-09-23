@@ -8,7 +8,13 @@ import { useTranslator } from './Hooks/useTranslator'
 import { TYPE_TEXT, NONE_LANGUAGE, ALLOWED_LANGUAGES } from './consts'
 import { useEffect, useState } from 'react'
 import { useDebounce } from './Hooks/useDebounce'
-import type { AllowedLanguages, AllowedLanguagesName } from './types'
+import { TranslateAsync } from './Services/translateService'
+import {
+  type AllowedLanguages,
+  type AllowedLanguagesName,
+  type TranslatePayload,
+  type TranslateResponse
+} from './types'
 
 const initialAllowedLanguageName: AllowedLanguagesName = NONE_LANGUAGE
 
@@ -27,7 +33,7 @@ function App() {
     setToText
   } = useTranslator()
 
-  const douncedVal = useDebounce(fromText)
+  const douncedVal = useDebounce(fromText, 500)
   const [realTranslation, setRealTranslation] = useState(
     initialAllowedLanguageName
   )
@@ -37,29 +43,29 @@ function App() {
       setRealTranslation(initialAllowedLanguageName)
       return
     }
-    const response: {
-      from: { text: string; lang: AllowedLanguages }
-      to: { text: string; lang: AllowedLanguages }
-      success: boolean
-      status: 'translated' | 'error'
-    } = {
-      from: {
-        text: 'hola',
-        lang: 'es'
-      },
-      to: {
-        text: 'hello',
-        lang: 'en'
-      },
-      success: true,
-      status: 'translated'
+
+    const getTranslateAsync = async ({
+      fromLanguage,
+      fromText,
+      toLanguage
+    }: TranslatePayload) => {
+      return await TranslateAsync({ fromLanguage, fromText, toLanguage })
     }
 
-    setRealTranslation(ALLOWED_LANGUAGES[response.from.lang])
-    setFromText(response.from.text)
-    setToLanguage(response.to.lang)
-    setToText(response.to.text)
-  }, [douncedVal])
+    getTranslateAsync({
+      fromText,
+      fromLanguage,
+      toLanguage
+    }).then((response: TranslateResponse) => {
+      if (!response.success) return
+      setRealTranslation(
+        ALLOWED_LANGUAGES[response.from.lang as AllowedLanguages]
+      )
+
+      setToLanguage(response.to.lang)
+      setToText(response.to.text)
+    })
+  }, [douncedVal, fromLanguage, toLanguage])
 
   function handleClick() {
     setExchangeLanguage()

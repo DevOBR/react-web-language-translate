@@ -1,6 +1,6 @@
 import { useReducer } from 'react'
 import { translatorReducer } from '../Reducers/translatorReducer'
-import { type Language, type iState } from '../types.d'
+import { type Language, type IState } from '../types.d'
 import {
   ACTIONTYPE_LANGUAGE,
   ACTIONTYPE_LANGUAGE_TEXT,
@@ -13,7 +13,7 @@ const fromLanguage: Language = 'auto'
 const toLanguage: Language = getDefaultLanguage<Language>(
   new Intl.Locale(navigator.languages[0] ?? 'es').language
 )
-const initialState: iState = {
+const initialState: IState = {
   fromLanguage,
   toLanguage,
   toText: '',
